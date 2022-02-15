@@ -7,5 +7,8 @@ class Animal(object):
     self.age = age
     
     def speak(self):
-      print("i am")
+      print("i am", self.name "and i am", self.age, "years old")
+      
+      class Dog(Animal):
+        def __init__(self, )
     
