@@ -1,0 +1,117 @@
+{
+	"info": {
+		"_postman_id": "68cd70b3-34d1-468b-8bdb-27e714642dbd",
+		"name": "DNA sandbox",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Get token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"token\", data.Token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{dnac_password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{dnac_username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://{{dnac}}/api/system/v1/auth/token",
+					"protocol": "https",
+					"host": [
+						"{{dnac}}"
+					],
+					"path": [
+						"api",
+						"system",
+						"v1",
+						"auth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. Obtain a list of clients / hosts (client detail) ",
+      "item": [
+        {
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "https://{{dnac}}:{{port}}/dna/intent/api/v1/client-detail",
+              "protocol": "https",
+              "host": "{{dnac}}",
+              "port": "{{port}}",
+              "path": [
+                "dna",
+                "intent",
+                "api",
+                "v1",
+                "client-detail"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "timestamp",
+                  "value": "",
+                  "description": "(string, required) Epoch time(in milliseconds) when the Client health data is required"
+                },
+                {
+                  "key": "macAddress",
+                  "value": "",
+                  "description": "(string, required) MAC Address of the client"
+                }
+              ]
+            },
+             "header": [
+              {
+                "key": "X-Auth-Token",
+                "value": "{{token}}",
+                "description": "(string, required) Authorization token"
+              },
+              {
+                "key": "__runsync",
+                "value": "true",
+                "description": "(boolean, required) Enable this parameter to execute the API and return a response synchronously"
+              },
+              {
+                "key": "__timeout",
+                "value": "30",
+                "description": "(number, required) Defines the maximum time if API completes its execution before __runsync is set to ‘true’."
+              },
+              {
+                "key": "__persistbapioutput",
+                "value": "true",
+                "description": "(string, required) Enable this parameter to ensure that the synchronous response of the API is made available as part of the logs and the execution status"
+              }
+            ],
+            "body": null,
+            "description": "Returning detailed client information for every particular point in time as retrieved by mac address."
+          },
+			"response": []
+		}
+	]
+}
